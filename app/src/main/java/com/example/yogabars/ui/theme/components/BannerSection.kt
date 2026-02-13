@@ -33,14 +33,14 @@ fun BannerSection() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 3.dp, bottom = 0.dp)
+            .padding(bottom = 0.dp)
     ) {
         HorizontalPager(
             count = 3,
             state = pagerState,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(260.dp)
+                .height(600.dp)
         ) { page ->
             BannerItem(page = page)
         }
@@ -58,7 +58,7 @@ fun BannerSection() {
                         .clip(CircleShape)
                         .background(
                             if (pagerState.currentPage == index)
-                                Color(0xFFFF6D00)
+                                Color(0xFFE91E63)
                             else
                                 Color.White.copy(alpha = 0.6f)
                         )
@@ -73,7 +73,7 @@ fun BannerItem(page: Int) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(260.dp)
+            .height(600.dp)
     ) {
         Image(
             painter = painterResource(

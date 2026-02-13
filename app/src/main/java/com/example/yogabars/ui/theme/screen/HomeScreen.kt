@@ -29,13 +29,13 @@ fun HomeScreen() {
             )
         }
     ) { paddingValues ->
-
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .windowInsetsPadding(WindowInsets.safeDrawing),
-            contentPadding = paddingValues
-        ) {
+                .padding(paddingValues)   // ✅ Use Scaffold padding
+        )
+
+        {
 
             item { BannerSection() }
             item { CategoriesSection() }
