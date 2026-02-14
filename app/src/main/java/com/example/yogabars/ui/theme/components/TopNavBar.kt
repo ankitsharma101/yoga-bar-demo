@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.FlashOn
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocalOffer
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Shop
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -74,7 +75,7 @@ fun TopNavBar(
                     onItemSelected(0)
                 }
 
-                NavItem("SHOP", Icons.Default.ShoppingCart, selectedItem == 1) {
+                NavItem("SHOP", Icons.Default.Shop, selectedItem == 1) {
                     onItemSelected(1)
                 }
 

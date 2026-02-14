@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,74 +20,94 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.yogabars.R
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.Icon
+import androidx.compose.ui.graphics.vector.ImageVector
+
 
 @Composable
 fun CategoriesSection() {
 
-    val categories: List<Pair<String, Int>> = listOf(
-        "Bakery" to R.drawable.bakery,
-        "Drinks" to R.drawable.drinks,
-        "FastFood" to R.drawable.fastfood,
-        "Fruits" to R.drawable.fruits,
-        "Snacks" to R.drawable.snacks
+    val categories = listOf(
+        "Protein Bars" to Icons.Default.FitnessCenter,
+        "Muesli" to Icons.Default.BreakfastDining,
+        "Peanut" to Icons.Default.Eco,
+        "Gluten Free" to Icons.Default.NoFood
     )
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 0.dp, bottom = 8.dp)
+            .padding(vertical = 12.dp)
     ) {
-        Text(
-            text = "Categories",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        // Header
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "CATEGORIES",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF1B3C2D)
+            )
+
+            Text(
+                text = "VIEW ALL",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFFE91E63)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         LazyRow(
             contentPadding = PaddingValues(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(22.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(categories) { (title, imageRes) ->
-                CategoryItemClean(title, imageRes)
+            items(categories) { (title, icon) ->
+                CategoryItem(title, icon)
             }
         }
     }
 }
 
+
 @Composable
-fun CategoryItemClean(title: String, imageRes: Int) {
+fun CategoryItem(title: String, icon: ImageVector) {
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.width(82.dp)
+        modifier = Modifier.width(90.dp)
     ) {
+
         Surface(
-            shape = CircleShape,
+            shape = RoundedCornerShape(16.dp),
             color = Color.White,
-            shadowElevation = 2.dp,
-            border = BorderStroke(1.dp, Color(0xFFEDEDED)),
-            modifier = Modifier.size(64.dp)
+            shadowElevation = 4.dp,
+            modifier = Modifier.size(72.dp)
         ) {
-            Image(
-                painter = painterResource(id = imageRes),
-                contentDescription = title,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(4.dp)
-                    .clip(CircleShape)
-            )
+            Box(contentAlignment = Alignment.Center) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = title,
+                    tint = Color(0xFFE91E63),
+                    modifier = Modifier.size(35.dp)
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = title,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Normal,
+            text = title.uppercase(),
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Medium,
             color = Color.Black,
             maxLines = 1
         )

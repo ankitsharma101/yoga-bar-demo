@@ -2,6 +2,8 @@ package com.example.yogabars.ui.theme.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -18,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.yogabars.R
@@ -25,12 +28,14 @@ import com.example.yogabars.R
 data class Product(
     val id: Int,
     val title: String,
-    val rating: Double,
-    val ratingCount: Int,
-    val priceInr: Int,
+    val subtitle: String,
+    val price: Int,
+    val originalPrice: Int,
     val imageRes: Int,
-    val isNew: Boolean = false
+    val badgeText: String? = null,   // "SAVE 10%" or "BESTSELLER"
+    val badgeColor: Color = Color(0xFFE91E63)
 )
+
 
 @Composable
 fun BestSellersSection(
@@ -39,19 +44,28 @@ fun BestSellersSection(
     onRemoveFromCart: (Int) -> Unit
 ) {
     val products = listOf(
-        Product(1, "Berry Blast Protein Bar (6 Pack)", 4.8, 120, 399, R.drawable.bakery, true),
-        Product(2, "Almond & Cranberry Trail Mix", 4.9, 85, 249, R.drawable.fruits),
-        Product(3, "Healthy Cookies Pack Combo", 4.7, 64, 199, R.drawable.fastfood),
-        Product(4, "Sparkling Drink Combo Pack", 4.6, 40, 159, R.drawable.drinks),
-        Product(5, "Premium Snack Bar Box", 4.5, 33, 299, R.drawable.snacks),
-        Product(6, "Healthy Seeds Mix (Premium)", 4.8, 90, 279, R.drawable.fruits),
-        Product(7, "Choco Energy Bar (6 Pack)", 4.7, 55, 349, R.drawable.bakery, true),
-        Product(8, "Nutaaj ke dudty Trail Mix Combo", 4.6, 22, 229, R.drawable.fruits),
-        Product(9, "Protein Cookies Family Pack", 4.4, 18, 189, R.drawable.fastfood),
-        Product(10, "Fresh Fruit Drink Pack", 4.3, 12, 149, R.drawable.drinks),
-        Product(11, "Crunchy Snacks Variety Box", 4.5, 29, 199, R.drawable.snacks),
-        Product(12, "Healthy Seeds Bowl Mix", 4.8, 77, 259, R.drawable.fruits)
+        Product(
+            id = 1,
+            title = "Multigrain Energy Bar - Dark Chocolate",
+            subtitle = "Pack of 10 · 380g",
+            price = 450,
+            originalPrice = 500,
+            imageRes = R.drawable.bakery,
+            badgeText = "SAVE 10%",
+            badgeColor = Color(0xFFE91E63)
+        ),
+        Product(
+            id = 2,
+            title = "High Protein Oats - Dark Chocolate",
+            subtitle = "Instant Mix · 400g",
+            price = 299,
+            originalPrice = 350,
+            imageRes = R.drawable.snacks,
+            badgeText = "BESTSELLER",
+            badgeColor = Color(0xFF2E7D32)
+        )
     )
+
 
     Column(
         modifier = Modifier
@@ -66,7 +80,7 @@ fun BestSellersSection(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text("Best Sellers", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-            Text("See All", color = Color(0xFFFF6D00), fontWeight = FontWeight.SemiBold)
+            Text("See MORE", color = Color(0xFFE91E63), fontWeight = FontWeight.SemiBold)
         }
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -89,9 +103,11 @@ fun BestSellersSection(
                     onRemove = { onRemoveFromCart(product.id) }
                 )
             }
+
+        }
+
         }
     }
-}
 
 @Composable
 private fun ProductCard(
@@ -101,40 +117,46 @@ private fun ProductCard(
     onRemove: () -> Unit
 ) {
     Surface(
-        shape = RoundedCornerShape(18.dp),
+        shape = RoundedCornerShape(20.dp),
         color = Color.White,
-        shadowElevation = 2.dp,
-        border = BorderStroke(1.dp, Color(0xFFEDEDED)),
+        shadowElevation = 4.dp,
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier.padding(12.dp)
         ) {
-            Box {
-                // image
+
+            // IMAGE SECTION
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(140.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Color(0xFFF6EBDC))
+            ) {
+
                 Image(
                     painter = painterResource(product.imageRes),
                     contentDescription = product.title,
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(120.dp)
-                        .clip(RoundedCornerShape(14.dp))
+                        .fillMaxSize()
+                        .padding(16.dp)
                 )
 
-                // NEW tag
-                if (product.isNew) {
+                // BADGE
+                product.badgeText?.let {
                     Surface(
-                        color = Color(0xFF34A853),
-                        shape = RoundedCornerShape(10.dp),
+                        color = product.badgeColor,
+                        shape = RoundedCornerShape(8.dp),
                         modifier = Modifier
-                            .padding(8.dp)
                             .align(Alignment.TopStart)
+                            .padding(8.dp)
                     ) {
                         Text(
-                            "NEW",
+                            text = it,
                             color = Color.White,
-                            fontSize = 10.sp,
+                            fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                         )
@@ -142,108 +164,108 @@ private fun ProductCard(
                 }
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-            Box(
-                modifier = Modifier.height(40.dp),
-                contentAlignment = Alignment.TopStart
-            ) {
-                Text(
-                    text = product.title,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 2,
-                    lineHeight = 18.sp
-                )
-            }
+            // TITLE
+            Text(
+                text = product.title,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.SemiBold,
+                maxLines = 2
+            )
 
-            Spacer(modifier = Modifier.height(2.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
-            // rating row
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("★", color = Color(0xFFF4B400))
-                Spacer(modifier = Modifier.width(4.dp))
-                Text("${product.rating}", fontSize = 12.sp, color = Color(0xFF666666))
-                Spacer(modifier = Modifier.width(4.dp))
-                Text("(${product.ratingCount})", fontSize = 12.sp, color = Color(0xFF999999))
-            }
+            // SUBTITLE
+            Text(
+                text = product.subtitle,
+                fontSize = 13.sp,
+                color = Color.Gray
+            )
 
             Spacer(modifier = Modifier.height(10.dp))
 
+            // PRICE + BUTTON ROW
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = "₹${product.priceInr}",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFFFF6D00)
-                )
 
-                if (quantity == 0) {
-                    Surface(
-                        color = Color(0xFFFF6D00),
-                        shape = RoundedCornerShape(12.dp),
-                        modifier = Modifier.size(40.dp)
-                    ) {
-                        IconButton(
-                            onClick = onAdd,
-                            modifier = Modifier.fillMaxSize()
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Add,
-                                contentDescription = "Add",
-                                tint = Color.White
+                Column {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = "₹${product.price}",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFFE91E63)
+                        )
+
+                        Spacer(modifier = Modifier.width(6.dp))
+
+                        Text(
+                            text = "₹${product.originalPrice}",
+                            fontSize = 13.sp,
+                            color = Color.Gray,
+                            style = LocalTextStyle.current.copy(
+                                textDecoration = TextDecoration.LineThrough
                             )
-                        }
+                        )
                     }
-                } else {
-                    Surface(
-                        color = Color(0xFFFF6D00),
+                }
+
+                // 👇 BUTTON LOGIC
+                if (quantity == 0) {
+
+                    Button(
+                        onClick = onAdd,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFE91E63)
+                        ),
                         shape = RoundedCornerShape(12.dp),
-                        modifier = Modifier
-                            .width(100.dp)
-                            .height(40.dp)
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp)
+                    ) {
+                        Text("ADD", color = Color.White, fontWeight = FontWeight.Bold)
+                    }
+
+                } else {
+
+                    Surface(
+                        color = Color(0xFFE91E63),
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier.height(36.dp)
                     ) {
                         Row(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(horizontal = 4.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceEvenly
+                            modifier = Modifier.padding(horizontal = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            IconButton(
-                                onClick = onRemove,
-                                modifier = Modifier.size(32.dp)
-                            ) {
-                                Text(
-                                    "−",
-                                    color = Color.White,
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-                            }
+
+                            Text(
+                                text = "−",
+                                color = Color.White,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .padding(horizontal = 6.dp)
+                                    .clickable { onRemove() }
+                            )
 
                             Text(
                                 text = quantity.toString(),
                                 color = Color.White,
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.padding(horizontal = 8.dp)
                             )
 
-                            IconButton(
-                                onClick = onAdd,
-                                modifier = Modifier.size(32.dp)
-                            ) {
-                                Text(
-                                    "+",
-                                    color = Color.White,
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-                            }
+                            Text(
+                                text = "+",
+                                color = Color.White,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .padding(horizontal = 6.dp)
+                                    .clickable { onAdd() }
+                            )
                         }
                     }
                 }
