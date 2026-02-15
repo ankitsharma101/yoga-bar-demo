@@ -25,7 +25,6 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.Icon
 import androidx.compose.ui.graphics.vector.ImageVector
 
-
 @Composable
 fun CategoriesSection() {
 
@@ -42,7 +41,6 @@ fun CategoriesSection() {
             .padding(vertical = 12.dp)
     ) {
 
-        // Header
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -76,7 +74,6 @@ fun CategoriesSection() {
         }
     }
 }
-
 
 @Composable
 fun CategoryItem(title: String, icon: ImageVector) {

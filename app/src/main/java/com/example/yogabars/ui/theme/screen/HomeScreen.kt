@@ -32,11 +32,9 @@ fun HomeScreen() {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)   // ✅ Use Scaffold padding
+                .padding(paddingValues)
         )
-
         {
-
             item { BannerSection() }
             item { CategoriesSection() }
             item {
@@ -59,5 +57,4 @@ fun HomeScreen() {
             }
         }
     }
-
 }

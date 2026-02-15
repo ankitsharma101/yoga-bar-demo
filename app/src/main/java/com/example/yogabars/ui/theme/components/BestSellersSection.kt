@@ -32,10 +32,9 @@ data class Product(
     val price: Int,
     val originalPrice: Int,
     val imageRes: Int,
-    val badgeText: String? = null,   // "SAVE 10%" or "BESTSELLER"
+    val badgeText: String? = null,
     val badgeColor: Color = Color(0xFFE91E63)
 )
-
 
 @Composable
 fun BestSellersSection(
@@ -65,7 +64,6 @@ fun BestSellersSection(
             badgeColor = Color(0xFF2E7D32)
         )
     )
-
 
     Column(
         modifier = Modifier
@@ -103,11 +101,9 @@ fun BestSellersSection(
                     onRemove = { onRemoveFromCart(product.id) }
                 )
             }
-
-        }
-
         }
     }
+}
 
 @Composable
 private fun ProductCard(
@@ -126,7 +122,6 @@ private fun ProductCard(
             modifier = Modifier.padding(12.dp)
         ) {
 
-            // IMAGE SECTION
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -144,7 +139,6 @@ private fun ProductCard(
                         .padding(16.dp)
                 )
 
-                // BADGE
                 product.badgeText?.let {
                     Surface(
                         color = product.badgeColor,
@@ -166,7 +160,6 @@ private fun ProductCard(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // TITLE
             Text(
                 text = product.title,
                 fontSize = 15.sp,
@@ -176,7 +169,6 @@ private fun ProductCard(
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            // SUBTITLE
             Text(
                 text = product.subtitle,
                 fontSize = 13.sp,
@@ -185,7 +177,6 @@ private fun ProductCard(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // PRICE + BUTTON ROW
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -214,7 +205,6 @@ private fun ProductCard(
                     }
                 }
 
-                // 👇 BUTTON LOGIC
                 if (quantity == 0) {
 
                     Button(

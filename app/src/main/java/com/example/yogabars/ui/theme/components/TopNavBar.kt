@@ -1,20 +1,7 @@
 package com.example.yogabars.ui.theme.components
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -23,7 +10,6 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocalOffer
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Shop
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -35,6 +21,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.ColorFilter
+import com.example.yogabars.R
+import androidx.compose.ui.zIndex
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
 
 @Composable
 fun TopNavBar(
@@ -47,29 +40,28 @@ fun TopNavBar(
             .fillMaxWidth()
             .statusBarsPadding(),
         contentAlignment = Alignment.Center
-    ) {
+    )
 
-        // Background Bar
+    {
+
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(70.dp),
-            shape = RoundedCornerShape(
-                topStart = 0.dp,
-                topEnd = 0.dp,
-                //bottomStart = 24.dp,
-                //bottomEnd = 24.dp
-            )
-            ,
+                .height(70.dp)
+                .padding(top = 8.dp),
+            shape = RoundedCornerShape(0.dp),
             color = Color.White,
-            shadowElevation = 6.dp
+            shadowElevation = 0.dp
         ) {
 
             Row(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(vertical = 6.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
-            ) {
+            )
+            {
 
                 NavItem("HOME", Icons.Default.Home, selectedItem == 0) {
                     onItemSelected(0)
@@ -79,10 +71,9 @@ fun TopNavBar(
                     onItemSelected(1)
                 }
 
-                Spacer(modifier = Modifier.width(60.dp)) // space for center button
+                Spacer(modifier = Modifier.width(50.dp))
 
-                NavItem("OFFERS", Icons.Default.LocalOffer, selectedItem == 3)
-                {
+                NavItem("OFFERS", Icons.Default.LocalOffer, selectedItem == 3) {
                     onItemSelected(3)
                 }
 
@@ -92,26 +83,46 @@ fun TopNavBar(
             }
         }
 
-        // ⭐ Center Floating Button
+        Text(
+            text = "WELLNESS",
+            fontSize = 11.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = Color.Gray,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .offset(y = -30.dp)
+        )
+
         Surface(
             modifier = Modifier
-                .size(70.dp)
-                .offset(y = (-20).dp)
-                .border(2.dp, Color.White, CircleShape), // Border
+                .size(55.dp)
+                .align(Alignment.BottomCenter)
+                .offset(y = 25.dp),
             shape = CircleShape,
-            color = Color(0xFFE91E63),
-            shadowElevation = 8.dp
+            color = Color.White,
+            shadowElevation = 25.dp
         ) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.clickable { onItemSelected(2) }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.FlashOn,
-                    contentDescription = "Wellness",
-                    tint = Color.White,
-                    modifier = Modifier.size(30.dp)
-                )
+            Box(contentAlignment = Alignment.Center) {
+                Surface(
+                    modifier = Modifier
+                        .size(45.dp)
+                        .clickable { onItemSelected(2) },
+                    shape = CircleShape,
+                    color = Color(0xFFE91E63),
+                    shadowElevation = 10.dp
+                ) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.wellness_icon),
+                            contentDescription = "Wellness",
+                            modifier = Modifier.size(100.dp),
+                            colorFilter = ColorFilter.tint(Color.White)
+                        )
+                    }
+                }
             }
         }
     }
@@ -139,11 +150,8 @@ fun NavItem(
         Text(
             text = label,
             fontSize = 11.sp,
-            fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
+            fontWeight = FontWeight.SemiBold,
             color = if (selected) Color(0xFFE91E63) else Color.Gray
         )
     }
 }
-
-
-

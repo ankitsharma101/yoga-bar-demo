@@ -33,7 +33,6 @@ fun BannerSection() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 0.dp)
     ) {
         HorizontalPager(
             count = 3,
