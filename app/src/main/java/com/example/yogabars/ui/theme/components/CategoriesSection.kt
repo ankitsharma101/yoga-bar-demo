@@ -32,7 +32,8 @@ fun CategoriesSection() {
         "Protein Bars" to Icons.Default.FitnessCenter,
         "Muesli" to Icons.Default.BreakfastDining,
         "Peanut" to Icons.Default.Eco,
-        "Gluten Free" to Icons.Default.NoFood
+        "Gluten Free" to Icons.Default.NoFood,
+        "Vegan" to Icons.Default.Spa
     )
 
     Column(
@@ -49,17 +50,21 @@ fun CategoriesSection() {
         ) {
             Text(
                 text = "CATEGORIES",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF1B3C2D)
+                fontSize = 16.sp,
+                fontWeight = FontWeight.ExtraBold,
+                letterSpacing = 1.sp,
+                color = Color(0xFF0B3D2E)
+
             )
+
 
             Text(
                 text = "VIEW ALL",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFFE91E63)
+                color = Color(0xFFE91E63),
+                fontSize = 11.sp,
+                fontWeight = FontWeight.SemiBold
             )
+
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -104,9 +109,11 @@ fun CategoryItem(title: String, icon: ImageVector) {
         Text(
             text = title.uppercase(),
             fontSize = 12.sp,
-            fontWeight = FontWeight.Medium,
-            color = Color.Black,
+            fontWeight = FontWeight.Bold,
+            letterSpacing = 0.5.sp,
+            color = Color(0xFF0B3D2E),
             maxLines = 1
         )
+
     }
 }
