@@ -7,7 +7,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import com.example.yogabars.ui.theme.components.BestSellerSectionPage
+import com.example.yogabars.ui.theme.components.BestSellerSection
 import com.example.yogabars.ui.theme.components.BottomNavBar
 import com.example.yogabars.ui.theme.components.CategoriesSection
 import com.example.yogabars.ui.theme.components.InviteBanner
@@ -31,7 +31,9 @@ fun HomeScreen() {
         bottomBar = {
             BottomNavBar(
                 selectedIndex = selectedIndex,
-                onItemSelected = { selectedIndex = it }
+                onItemSelected = { index ->
+                    selectedIndex = index
+                }
             )
         }
     ) { padding ->
@@ -45,7 +47,7 @@ fun HomeScreen() {
             InviteBanner()
             CategoriesSection()
 
-            BestSellerSectionPage(
+            BestSellerSection(
                 cartItems = cartItems,
                 onAddToCart = { id ->
                     cartItems = cartItems.toMutableMap().apply {

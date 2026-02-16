@@ -30,7 +30,7 @@ data class Product(
 )
 
 @Composable
-fun BestSellerSectionPage(
+fun BestSellerSection(
     cartItems: Map<Int, Int>,
     onAddToCart: (Int) -> Unit,
     onRemoveFromCart: (Int) -> Unit

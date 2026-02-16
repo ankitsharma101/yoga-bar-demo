@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.ui.res.painterResource
+
 @Composable
 fun TopNavBar(
     cartCount: Int
