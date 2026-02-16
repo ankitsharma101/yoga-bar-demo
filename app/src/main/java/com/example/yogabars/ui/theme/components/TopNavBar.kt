@@ -1,5 +1,6 @@
 package com.example.yogabars.ui.theme.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,6 +21,9 @@ import androidx.compose.ui.unit.sp
 
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import com.example.yogabars.R
 
 @Composable
 fun TopNavBar(
@@ -42,10 +46,22 @@ fun TopNavBar(
 
             // Left profile circle
             Surface(
+                modifier = Modifier.size(40.dp),
                 shape = CircleShape,
-                modifier = Modifier.size(36.dp),
-                color = Color.White
-            ) {}
+                color = Color.White,
+                shadowElevation = 6.dp
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+
+                    Image(
+                        painter = painterResource(id = R.drawable.app_logo),
+                        contentDescription = "App Logo",
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentScale = ContentScale.Fit
+                    )
+                }
+            }
 
             // Right icons
             Row(
@@ -78,7 +94,7 @@ fun TopNavBar(
                                     color = Color.White,
                                     shape = CircleShape
                                 ),
-                            contentAlignment = Alignment.Center // 👈 important
+                            contentAlignment = Alignment.Center
                         ) {
 
                             Text(
