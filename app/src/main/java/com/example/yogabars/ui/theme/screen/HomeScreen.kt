@@ -7,9 +7,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import com.example.yogabars.ui.theme.components.BannerSection
-import com.example.yogabars.ui.theme.components.BestSellerSection
+import com.example.yogabars.ui.theme.components.BestSellerSectionPage
 import com.example.yogabars.ui.theme.components.BottomNavBar
 import com.example.yogabars.ui.theme.components.CategoriesSection
 import com.example.yogabars.ui.theme.components.InviteBanner
@@ -20,8 +18,16 @@ fun HomeScreen() {
 
     var selectedIndex by remember { mutableStateOf(0) }
 
+    // 🛒 Cart state
+    var cartItems by remember { mutableStateOf<Map<Int, Int>>(emptyMap()) }
+
+    // total quantity for badge
+    val totalCartCount = cartItems.values.sum()
+
     Scaffold(
-        topBar = { TopNavBar() },
+        topBar = {
+            TopNavBar(cartCount = totalCartCount)
+        },
         bottomBar = {
             BottomNavBar(
                 selectedIndex = selectedIndex,
@@ -36,20 +42,27 @@ fun HomeScreen() {
                 .verticalScroll(rememberScrollState())
         ) {
 
-            // ✅ Invite banner FIRST
             InviteBanner()
-
-            // Categories section
             CategoriesSection()
 
-            // Best Sellers
-            BestSellerSection(
-                cartItems = emptyMap(),
-                onAddToCart = {},
-                onRemoveFromCart = {}
+            BestSellerSectionPage(
+                cartItems = cartItems,
+                onAddToCart = { id ->
+                    cartItems = cartItems.toMutableMap().apply {
+                        this[id] = (this[id] ?: 0) + 1
+                    }
+                },
+                onRemoveFromCart = { id ->
+                    cartItems = cartItems.toMutableMap().apply {
+                        val current = this[id] ?: 0
+                        if (current > 1) {
+                            this[id] = current - 1
+                        } else {
+                            remove(id)
+                        }
+                    }
+                }
             )
         }
     }
 }
-
-
